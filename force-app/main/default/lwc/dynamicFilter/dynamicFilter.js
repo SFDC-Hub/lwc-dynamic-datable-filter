@@ -9,11 +9,11 @@ export default class DynamicFilter extends LightningElement {
         this.filters = JSON.parse(JSON.stringify(this.filters));
         this.filters.forEach(item => {
             item[item.type] = true;
-            if(item.type == 'text' || item.type == 'number' || item.type == 'tel' || item.type == 'date' || item.type == 'datetime' || item.type == 'color'){
-                item.stdIp = true;   
+            if (item.type == 'text' || item.type == 'number' || item.type == 'tel' || item.type == 'date' || item.type == 'datetime' || item.type == 'color') {
+                item.stdIp = true;
             }
-            if(item.type == 'picklist'){
-                item.options = [];   
+            if (item.type == 'picklist') {
+                item.options = [];
             }
         });
 
@@ -21,7 +21,7 @@ export default class DynamicFilter extends LightningElement {
             this.filters.forEach(filter => {
                 if (filter.type === 'picklist') {
                     const value = item[filter.api];
-                    if (!filter.options.includes(value) && value!=null) {
+                    if (!filter.options.includes(value) && value != null) {
                         filter.options.push(value);
                     }
                 }
@@ -31,7 +31,7 @@ export default class DynamicFilter extends LightningElement {
         this.filters.forEach(filter => {
             if (filter.type === 'picklist') {
                 filter.options.sort();
-                filter.options = [{label:'-Select-', value:null}].concat(filter.options.map(item => ({label:String(item), value:String(item)})));
+                filter.options = [{ label: '-Select-', value: null }].concat(filter.options.map(item => ({ label: String(item), value: String(item) })));
             }
         });
     }
@@ -41,15 +41,15 @@ export default class DynamicFilter extends LightningElement {
         this.filterData();
     }
 
-    filterData(){
+    filterData() {
         let data = this.originalTdata.filter(item => {
             return this.filters.every(filter => {
                 if (!filter.value) {
                     return true;
                 }
-                if(filter.type == 'text' || filter.type == 'picklist' || item.type == 'number' || item.type == 'tel'){
+                if (filter.type == 'text' || filter.type == 'picklist' || item.type == 'number' || item.type == 'tel') {
                     return String(String(item[filter.api])).toLowerCase().includes(String(filter.value).toLowerCase());
-                }else if(item.type == 'date' || item.type == 'datetime' || item.type == 'color'){
+                } else if (item.type == 'date' || item.type == 'datetime' || item.type == 'color') {
                     return String(item[filter.api]) == (filter.value);
                 }
             });
@@ -57,34 +57,29 @@ export default class DynamicFilter extends LightningElement {
         this.sendData(data);
     }
 
-    sendData(data){
+    sendData(data) {
         this.dispatchEvent(new CustomEvent('filter', { detail: { data } }));
     }
 
-    resetFilters(){
-        // console.log(JSON.stringify(this.filters));
+    resetFilters() {
         this.filters.forEach(filter => {
-            
-            if(filter.type == 'text'){
+        if (filter.type == 'text') {
                 filter.value = '';
             }
-            if(filter.type == 'picklist'){
+            if (filter.type == 'picklist') {
                 filter.value = null;
             }
         });
 
         let textInputs = this.template.querySelectorAll('lightning-input');
         textInputs.forEach(input => {
-            console.log("clearing values");
             input.value = '';
         });
         let picklistInputs = this.template.querySelectorAll('lightning-combobox');
         picklistInputs.forEach(input => {
-            console.log("clearing values");
             input.value = null;
         });
-        
-        // console.log(JSON.stringify(this.filters));
+
         this.filters = JSON.parse(JSON.stringify(this.filters));
         this.sendData(this.originalTdata);
     }

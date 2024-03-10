@@ -1,23 +1,21 @@
 <template>
 	<template lwc:if={filters}>
-		<div class="slds-grid slds-gutters slds-p-left_small lgc-bg" >
+		<div class="slds-grid slds-gutters slds-var-p-left_small lgc-bg">
 			<template for:each={filters} for:item="filter">
-				<template lwc:if={filter.stdIp}>
-					<div class="slds-col" key={filter.api}>
-						<lightning-input name={filter.api} key={filter.api}
-							type={filter.type} label={filter.label} value={filter.value} onchange={handleChange}>
+				<div class="slds-col" key={filter.api}>
+					<template lwc:if={filter.stdIp}>
+						<lightning-input name={filter.api} type={filter.type} label={filter.label} value={filter.value}
+							onchange={handleChange}>
 						</lightning-input>
-					</div>
-				</template>
-				<template lwc:if={filter.picklist}>
-					<div class="slds-col" key={filter.api}>
-						<lightning-combobox name={filter.api} key={filter.api} label={filter.label} value={filter.value}
+					</template>
+					<template lwc:if={filter.picklist}>
+						<lightning-combobox name={filter.api} label={filter.label} value={filter.value}
 							placeholder="-Select-" options={filter.options} onchange={handleChange}>
 						</lightning-combobox>
-					</div>
-				</template>
+					</template>
+				</div>
 			</template>
-			<div class="slds-col" key={filter.api}>
+			<div class="slds-col">
 				<br>
 				<lightning-button variant="brand" label="Reset Filters" title="Reset Filter" onclick={resetFilters}>
 				</lightning-button>
