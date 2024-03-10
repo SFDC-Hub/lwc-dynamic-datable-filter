@@ -4,14 +4,14 @@
 			<template for:each={filters} for:item="filter">
 				<template lwc:if={filter.stdIp}>
 					<div class="slds-col" key={filter.api}>
-						<lightning-input name={filter.name} key={filter.api}
+						<lightning-input name={filter.api} key={filter.api}
 							type={filter.type} label={filter.label} value={filter.value} onchange={handleChange}>
 						</lightning-input>
 					</div>
 				</template>
 				<template lwc:if={filter.picklist}>
 					<div class="slds-col" key={filter.api}>
-						<lightning-combobox name={filter.name} key={filter.api} label={filter.label} value={filter.value}
+						<lightning-combobox name={filter.api} key={filter.api} label={filter.label} value={filter.value}
 							placeholder="-Select-" options={filter.options} onchange={handleChange}>
 						</lightning-combobox>
 					</div>

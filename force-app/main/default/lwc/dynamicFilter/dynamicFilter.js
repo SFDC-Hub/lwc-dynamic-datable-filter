@@ -37,7 +37,7 @@ export default class DynamicFilter extends LightningElement {
     }
 
     handleChange(event) {
-        this.filters.find(filter => filter.name === event.target.name).value = event.target.value;
+        this.filters.find(filter => filter.api === event.target.name).value = event.target.value;
         this.filterData();
     }
 
